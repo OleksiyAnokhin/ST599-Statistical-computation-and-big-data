@@ -20,6 +20,7 @@ str(ny_sm)
 which(names(ny_sm)%in%c("JWMNP", "JWRIP", "JWTR", "SEMP", "SSIP", "SSP", "WAGP","PERNP","PINCP", "PUMA10", "PUMA00"))
 # got these results for the columns: 35  36  37  71  73  74  75 111 112 5 4
 # cut out columns using a command line tool - did you do last week's readings?
+unzip("data/csv_pny.zip", exdir = "data/")
 
 system("cut -d, -f4,5,35,36,37,71,73,74,75,111,112 data/ss12pny.csv > data/ss12pny-cut.csv")
 ny4 <- read.csv("data/ss12pny-cut.csv",stringsAsFactors = FALSE)
@@ -182,10 +183,12 @@ ggplot(dat, aes(trans_type,Income, na.rm=TRUE)))+
 
 n<-ggplot(dc.nof, aes(trans_type,Income, na.rm=TRUE))
 big_font<-theme_gray(base_size=18)
-n+geom_violin(color="blue", fill="blue", alpha=I(0.2)) +
-  big_font + scale_fill_manual(values=c("red", "blue")) +
-  geom_violin(aes(trans_type,Income),
-              data=nyc.nof, color="red", fill="red", alpha=I(0.2)) +
+n+ geom_violin(aes(color="DC", fill="DC"), alpha=I(0.2)) +
+   big_font + 
+  scale_fill_manual("", values=c("red", "blue")) +
+  scale_color_manual("", values=c("red", "blue")) +
+  geom_violin(aes(trans_type, Income, color="NY", fill="NY"),
+              data=nyc.nof, alpha=I(0.2)) +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_text(color="black"),
         axis.text.y=element_text(color="black")) +
